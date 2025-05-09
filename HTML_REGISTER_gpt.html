@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="MobileOptimized" content="176"/>
+    <meta name="HandheldFriendly" content="True"/>
+    <meta name="robots" content="noindex,nofollow"/>
+    <title>Регистрация в бонусной программе</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            --bg-color: var(--tg-theme-bg-color, #fff);
+            font-family: sans-serif;
+            background-color: var(--bg-color);
+            color: var(--tg-theme-text-color, #222);
+            font-size: 15px;
+            margin: 0;
+            padding: 0;
+            color-scheme: var(--tg-color-scheme);
+        }
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 24px 16px 16px 16px;
+            background: var(--bg-color);
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+        }
+        .title {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .phone {
+            text-align: center;
+            color: #888;
+            margin-bottom: 24px;
+            font-size: 1.1em;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--tg-theme-link-color, #000);
+            background: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #222222);
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border 0.2s;
+        }
+        .form-input:focus {
+            border-color: #1976d2;
+            outline: none;
+        }
+        .error-text {
+            color: #e53935;
+            font-size: 0.95em;
+            margin-top: 4px;
+            display: none;
+        }
+        .radio-group {
+            display: flex;
+            gap: 24px;
+            margin-top: 8px;
+            align-items: center;
+        }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+        .submit-button {
+            width: 100%;
+            margin: 32px 0 0 0;
+            padding: 14px 0;
+            background: var(--tg-theme-button-color, #50a8eb);
+            color: var(--tg-theme-button-text-color, #fff);
+            border: none;
+            border-radius: 24px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            opacity: 1;
+            transition: background 0.2s, opacity 0.2s;
+            position: relative;
+        }
+        .submit-button[disabled] {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        .loader {
+            display: none;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1976d2;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+        }
+        .button-text {
+            display: inline;
+        }
+        .success-message {
+            display: none;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #388e3c;
+            margin-top: 60px;
+            line-height: 1.6;
+        }
+        .api-error {
+            color: #e53935;
+            text-align: center;
+            margin-top: 16px;
+            display: none;
+        }
+    </style>
+</head>
+<body style="visibility:hidden;">
+<div class="container" id="form-container">
+    <h2 class="title">Регистрация в бонусной программе</h2>
+    <div class="phone">+7 (985) 682-41-85</div>
+    <form id="registration-form" autocomplete="off">
+        <div class="form-group">
+            <label class="form-label" for="name">Имя *</label>
+            <input type="text" id="name" name="name" class="form-input" required>
+            <div class="error-text" id="name-error">Введите имя</div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="surname">Фамилия</label>
+            <input type="text" id="surname" name="surname" class="form-input">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="email">E-mail *</label>
+            <input type="email" id="email" name="email" class="form-input" required>
+            <div class="error-text" id="email-error">Введите корректный e-mail</div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="birth">День рождения *</label>
+            <input type="text" id="birth" name="birth" class="form-input" placeholder="дд.мм.гггг" required maxlength="10">
+            <div class="error-text" id="birth-error">Введите дату в формате дд.мм.гггг</div>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Пол *</label>
+            <div class="radio-group">
+                <label class="radio-label">
+                    <input type="radio" name="gender" value="male" required>
+                    Мужчина
+                </label>
+                <label class="radio-label">
+                    <input type="radio" name="gender" value="female" required>
+                    Женщина
+                </label>
+            </div>
+            <div class="error-text" id="gender-error">Выберите пол</div>
+        </div>
+        <div class="api-error" id="api-error"></div>
+        <button type="submit" class="submit-button" id="submit-button">
+            <span class="button-text">Сохранить</span>
+            <div class="loader" id="loader"></div>
+        </button>
+    </form>
+    <div class="success-message" id="success-message">
+        Поздравляем!<br>
+        Ваша электронная карта выпущена!
+    </div>
+</div>
+<script>
+    let sessionId = null;
+
+    // Авторизация через Telegram WebApp
+    function authorizeUser() {
+        const initData = Telegram.WebApp.initData || '';
+        if (!initData) {
+            Telegram.WebApp.showAlert('Ошибка: Не удалось получить initData');
+            Telegram.WebApp.close();
+            return;
+        }
+        // Замените на ваш реальный endpoint авторизации
+        const xhrURL = new URL('https://lk.111500.xyz/shm/v1/telegram/webapp/auth', window.location.origin);
+        xhrURL.searchParams.set('uid', user_id );
+        xhrURL.searchParams.set('initData', initData);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', xhrURL);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                try {
+                    sessionId = JSON.parse(xhr.response).session_id;
+                } catch (e) {
+                    Telegram.WebApp.showAlert('Ошибка авторизации');
+                    Telegram.WebApp.close();
+                    return;
+                }
+                document.body.style.visibility = '';
+                Telegram.WebApp.ready();
+            } else {
+                Telegram.WebApp.showAlert('Ошибка авторизации');
+                Telegram.WebApp.close();
+            }
+        };
+        xhr.onerror = function() {
+            Telegram.WebApp.showAlert('Ошибка сети');
+            Telegram.WebApp.close();
+        };
+        xhr.send();
+    }
+
+    document.addEventListener('DOMContentLoaded', authorizeUser);
+
+    // --- Валидация и отправка формы ---
+    function validateEmail(email) {
+        return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+    }
+    function validateDate(date) {
+        if (!/^\d{2}\.\d{2}\.\d{4}$/.test(date)) return false;
+        const [d, m, y] = date.split('.').map(Number);
+        const dt = new Date(y, m - 1, d);
+        return dt.getFullYear() === y && dt.getMonth() === m - 1 && dt.getDate() === d;
+    }
+    function showError(fieldId, show) {
+        const errorElement = document.getElementById(`${fieldId}-error`);
+        if (errorElement) errorElement.style.display = show ? 'block' : 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('registration-form');
+        const formContainer = document.getElementById('form-container');
+        const successMessage = document.getElementById('success-message');
+        const submitButton = document.getElementById('submit-button');
+        const buttonText = document.querySelector('.button-text');
+        const loader = document.getElementById('loader');
+        const apiError = document.getElementById('api-error');
+
+        // Валидация при вводе
+        document.getElementById('name').addEventListener('input', function() {
+            showError('name', this.value.trim() === '');
+        });
+        document.getElementById('email').addEventListener('input', function() {
+            showError('email', this.value.trim() !== '' && !validateEmail(this.value));
+        });
+        document.getElementById('birth').addEventListener('input', function() {
+            const value = this.value;
+            // Автоматически добавляем точки при вводе даты
+            if (value.length === 2 && !value.includes('.')) {
+                this.value = value + '.';
+            } else if (value.length === 5 && value.charAt(2) === '.' && !value.includes('.', 3)) {
+                this.value = value + '.';
+            }
+            showError('birth', value.trim() !== '' && !validateDate(value));
+        });
+
+        // Валидация при потере фокуса
+        document.getElementById('name').addEventListener('blur', function() {
+            showError('name', this.value.trim() === '');
+        });
+        document.getElementById('email').addEventListener('blur', function() {
+            if (this.value.trim() === '') {
+                showError('email', true);
+            } else {
+                showError('email', !validateEmail(this.value));
+            }
+        });
+        document.getElementById('birth').addEventListener('blur', function() {
+            if (this.value.trim() === '') {
+                showError('birth', true);
+            } else {
+                showError('birth', !validateDate(this.value));
+            }
+        });
+
+        // Валидация радиокнопок
+        const genderInputs = document.querySelectorAll('input[name="gender"]');
+        genderInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                showError('gender', false);
+            });
+        });
+
+        // Обработка отправки формы
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const birth = document.getElementById('birth').value.trim();
+            const gender = document.querySelector('input[name="gender"]:checked');
+            let hasErrors = false;
+            if (name === '') { showError('name', true); hasErrors = true; }
+            if (email === '') { showError('email', true); hasErrors = true; }
+            else if (!validateEmail(email)) { showError('email', true); hasErrors = true; }
+            if (birth === '') { showError('birth', true); hasErrors = true; }
+            else if (!validateDate(birth)) { showError('birth', true); hasErrors = true; }
+            if (!gender) { showError('gender', true); hasErrors = true; }
+            if (hasErrors) return;
+
+            // Блокируем кнопку и показываем прелоадер
+            submitButton.disabled = true;
+            buttonText.style.display = 'none';
+            loader.style.display = 'block';
+            apiError.style.display = 'none';
+
+            const formData = {
+                name: name,
+                surname: document.getElementById('surname').value.trim(),
+                email: email,
+                birth: birth,
+                gender: gender.value
+            };
+
+            // Отправляем данные на сервер
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/api/bonus/register');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            if (sessionId) xhr.setRequestHeader('session-id', sessionId);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    form.style.display = 'none';
+                    successMessage.style.display = 'block';
+                    setTimeout(() => {
+                        if (window.Telegram && window.Telegram.WebApp) {
+                            window.Telegram.WebApp.close();
+                        }
+                    }, 2000);
+                } else {
+                    let msg = 'Ошибка при регистрации';
+                    try {
+                        const resp = JSON.parse(xhr.responseText);
+                        msg = resp.message || msg;
+                    } catch (e) {}
+                    apiError.textContent = msg;
+                    apiError.style.display = 'block';
+                    submitButton.disabled = false;
+                    buttonText.style.display = 'inline';
+                    loader.style.display = 'none';
+                }
+            };
+            xhr.onerror = function() {
+                apiError.textContent = 'Ошибка сети. Пожалуйста, попробуйте позже.';
+                apiError.style.display = 'block';
+                submitButton.disabled = false;
+                buttonText.style.display = 'inline';
+                loader.style.display = 'none';
+            };
+            xhr.send(JSON.stringify(formData));
+        });
+    });
+</script>
+</body>
+</html>

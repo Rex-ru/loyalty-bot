@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALPINDUSTRIA Pass</title>
+    <style>
+        :root {
+            --background-color: #2b2520;
+            --text-color: #ffffff;
+            --secondary-text-color: #a0a0a0;
+            --card-width: 100%;
+            --card-max-width: 400px;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            width: var(--card-width);
+            max-width: var(--card-max-width);
+            margin: 20px;
+        }
+        
+        .card {
+            background-color: var(--background-color);
+            border-radius: 15px;
+            overflow: hidden;
+            color: var(--text-color);
+            padding-bottom: 20px;
+        }
+        
+        .logo {
+            width: 320px;
+            height: auto;
+            margin: 20px auto;
+            display: block;
+        }
+        
+        .banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .status {
+            padding: 0 20px;
+        }
+        
+        .status-title {
+            font-size: 16px;
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
+        
+        .status-name {
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
+        .points {
+            text-align: right;
+            padding: 0 20px;
+        }
+        
+        .points-label {
+            font-size: 14px;
+            color: var(--secondary-text-color);
+            margin-bottom: 5px;
+        }
+        
+        .points-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 0;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            margin-top: 20px;
+        }
+        
+        .info-column {
+            flex: 1;
+        }
+        
+        .info-label {
+            font-size: 14px;
+            color: var(--secondary-text-color);
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 18px;
+            font-weight: normal;
+            margin-top: 0;
+        }
+        
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .qr-code {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            width: 200px;
+            height: 200px;
+        }
+        
+        .card-number {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <img src="{{ logoUrl }}" alt="ALPINDUSTRIA" class="logo">
+            
+            <div class="points">
+                <div class="points-label">{{ pointsLabel }}</div>
+                <h2 class="points-value">{{ data.score }}</h2>
+            </div>
+        
+            
+            <img src="{{ bannerUrl }}" alt="EVEREST" class="banner">
+            
+            <div class="info-row">
+                <div class="info-column">
+                    <div class="info-label">{{ ownerLabel }}</div>
+                    <p class="info-value">{{ data.fio }}</p>
+                </div>
+                <div class="info-column" style="text-align: right;">
+                    <div class="info-label">{{ cashbackLabel }}</div>
+                    <p class="info-value">{{ data.score_pc }}</p>
+                </div>
+            </div>
+            
+            <div class="qr-container">
+                <div>
+                    <img src="{{ config.api.url }}/shm/v1/public/referal_url?format=qrcode&partner_id={{ user.dogovor }}" alt="QR Code" class="qr-code">
+                    <div class="card-number">{{ user.dogovor }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Переменные для настройки
+        const variables = {
+            backgroundColor: '#2b2520',
+            logoUrl: 'https://cloud.barin.top/seafhttp/f/d955b7ac467a453b901a/?op=view',
+            bannerUrl: 'https://cloud.barin.top/seafhttp/f/4bb6d750952b4c958f5d/?op=view',
+            pointsLabel: 'БАЛЛЫ',
+            statusLabel: 'Platinum',
+            statusName: 'EVEREST',
+            ownerLabel: 'ВЛАДЕЛЕЦ',
+            cashbackLabel: 'КЕШБЭК'
+        };
+        
+        // Применение переменных
+        document.documentElement.style.setProperty('--background-color', variables.backgroundColor);
+        document.querySelector('.logo').src = variables.logoUrl;
+        document.querySelector('.banner').src = variables.bannerUrl;
+        document.querySelector('.points-label').textContent = variables.pointsLabel;
+        document.querySelector('.status-title').textContent = variables.statusLabel;
+        document.querySelector('.status-name').textContent = variables.statusName;
+        document.querySelector('.info-label:nth-of-type(1)').textContent = variables.ownerLabel;
+        document.querySelector('.info-column:nth-child(2) .info-label').textContent = variables.cashbackLabel;
+    </script>
+</body>
+</html>

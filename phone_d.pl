@@ -1,0 +1,54 @@
+<% SWITCH cmd %>
+<% CASE 'USER_NOT_FOUND' %>
+{{ IF message.contact }}
+    {{ IF message.contact }}
+        {{ phone = message.contact.phone_number.replace('\\+', '') }}
+        {{ tg_api( 
+            shmRegister = {
+                partner_id = args.0 || start_args.pid
+                user_login = phone
+                callback_data = "/new_user " _ message.contact.phone_number
+            }
+        ) }}
+    {{ END }}
+{{ ELSE }}
+{{ tg_api( sendMessage = {
+        text = "Для регистрация в программе лояльности отправьте мне номер телефона"
+        reply_markup = {
+            keyboard = [
+                [
+                    {
+                        text = "Поделиться номером телефона"
+                        request_contact = true
+                    }
+                ]
+            ]
+            one_time_keyboard = true
+            resize_keyboard = true
+        }
+    }
+)
+}}
+{{ END }}
+<% CASE ['/start', '/menu', '/new_user'] %>
+{{ IF cmd == '/new_user' }}
+{{ set_phone = user.set( phone = args.0 ) }}
+{{ END }}
+{{ tg_api( sendMessage = {
+        text = "Для завершения регистрации заполните коротку анкету"
+        reply_markup = {
+            inline_keyboard = [
+                [
+                    {
+                        text = "Заполнить анкету"
+                        callback_data = "/balance"
+                    }
+                ]
+            ]
+        }
+    }
+)
+}}
+<% CASE %>
+{{ tg_api( sendMessage = { text = 'Я не знаю команды: ' _  cmd  } ) }}
+<% END %>

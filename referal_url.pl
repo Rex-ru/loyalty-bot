@@ -1,0 +1,1 @@
+{{ request.params.partner_id }}
